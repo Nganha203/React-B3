@@ -49,7 +49,7 @@ export default class CardPhone extends Component {
     state = {
         chitiet: {},
         gioHang: [],
-       modal: {}
+        deleteId: null
     }
     chitietSP = (sp) => {
         console.log('name')
@@ -80,11 +80,17 @@ export default class CardPhone extends Component {
             const newGioHang = this.state.gioHang.filter((item) => item.maSP !== ma)
             this.setState({
                 gioHang: newGioHang,
-                id: 0
+                
             })
-        
-
     }
+
+    // Xét lại id
+    idDelete = (id) =>{
+        this.setState({
+            deleteId: id
+        })
+    }
+
     quantitySP = ({quantity, ma}) =>{
         const sanPham = this.state.gioHang.find((sp) => sp.maSP === ma);
         // console.log(sanPham)
@@ -104,7 +110,7 @@ export default class CardPhone extends Component {
     render() {
         return (
             <div className='container'>
-                <Modal/>
+                
                 <div className='d-flex gap-5 ms-5'>
                     {ListPhone.map((item) => {
                         return <PhoneItem key={item.maSP} phone={item} buttonAdd={this.addSP} buttonChiTiet={this.chitietSP} />
@@ -112,8 +118,8 @@ export default class CardPhone extends Component {
                 </div>
 
                 <Phonechitiet chitietSP={this.state.chitiet} />
-                <Giohang quantity = {this.quantitySP} buttonDelete = {this.removeSP} gioHang={this.state.gioHang} />
-                <Modal quantity = {this.quantitySP} buttonDelete = {this.removeSP} gioHang={this.state.gioHang}/>
+                <Giohang idDelete = {this.idDelete} quantity = {this.quantitySP} gioHang={this.state.gioHang} />
+                <Modal id={this.state.deleteId}  buttonDelete = {this.removeSP} />
             </div>
         )
     }
